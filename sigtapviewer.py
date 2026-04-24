@@ -602,6 +602,7 @@ class ProcedureCboSearch(QMainWindow):
                     
                 header.setStretchLastSection(True)
                 self.table.setUpdatesEnabled(True)
+                self.log_alert(f"{len(data)} resultados encontrados.")
             
         except Exception as e:
             self.table.setUpdatesEnabled(True)
