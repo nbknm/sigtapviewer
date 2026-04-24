@@ -588,15 +588,20 @@ class ProcedureCboSearch(QMainWindow):
                         item.setText(val_str)
                     self.table.setItem(r_idx, c_idx, item)
 
-            header = self.table.horizontalHeader()
-            if self.table.columnCount() > 0:
-                header.setSectionResizeMode(QHeaderView.ResizeToContents)
-                for i, col in enumerate(current_cols):
-                    if any(x in col.lower() for x in ["nome", "descrição", "instrumentos"]):
-                        header.setSectionResizeMode(i, QHeaderView.Stretch)
-
-            self.table.setUpdatesEnabled(True)
-            self.log_alert(f"{len(data)} resultados encontrados.")
+            
+            num_cols = self.table.columnCount()
+            
+            if num_cols > 0:
+                header = self.table.horizontalHeader()
+                total_width = (self.table.viewport().width()) - 100
+                width_per_col = total_width // num_cols 
+                
+                for i in range(num_cols):
+                    self.table.setColumnWidth(i, width_per_col)
+                    header.setSectionResizeMode(i, QHeaderView.Interactive)
+                    
+                header.setStretchLastSection(True)
+                self.table.setUpdatesEnabled(True)
             
         except Exception as e:
             self.table.setUpdatesEnabled(True)
